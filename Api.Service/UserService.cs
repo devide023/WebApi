@@ -15,11 +15,6 @@ namespace Api.Service
         public UserService()
         {
 
-        }
-
-        public override IEnumerable<sys_user> Get_List<P>(P parm)
-        {
-            return base.Get_List<P>(parm);
-        }
+        }        
     }
 }

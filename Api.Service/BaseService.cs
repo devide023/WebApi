@@ -9,6 +9,9 @@ using Api.Model;
 using Api.Model.Parm;
 using Api.Dao;
 using Webdiyer.WebControls.Mvc;
+using System.Linq.Expressions;
+using System.Data.Entity.Infrastructure;
+
 namespace Api.Service
 {
     public class BaseService<T> : IBase<T> where T:class
@@ -62,16 +65,31 @@ namespace Api.Service
                 throw;
             }
         }
-
-        public virtual IEnumerable<T> Get_List<P>(P parm) where P : BaseParm
+        public virtual IEnumerable<T> Get_List<P, TKey>(P parm, Expression<Func<T, TKey>> orderByLambda) where P : BaseParm
         {
             try
             {
                 using (Db db = new Db())
                 {
-                    var list = db.Set<T>().AsEnumerable<T>();
-                    list = list.ToPagedList(parm.pageindex, parm.pagesize);
-                    return list;
+                    var list = db.Set<T>() as IQueryable<T>;
+                    return list.OrderByDescending(orderByLambda).ToPagedList(parm.pageindex, parm.pagesize);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public virtual IEnumerable<T> Get_List<P, TKey>(P parm, Expression<Func<T, TKey>> orderByLambda,out int record_count) where P : BaseParm
+        {
+            try
+            {
+                using (Db db = new Db())
+                {
+                    var list = db.Set<T>() as IQueryable<T>;
+                    record_count = list.Count();
+                    return list.OrderByDescending(orderByLambda).ToPagedList(parm.pageindex, parm.pagesize);
                 }
             }
             catch (Exception)
