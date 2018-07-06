@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MyAPI.Filters;
 
 namespace MyAPI
 {
@@ -13,7 +14,7 @@ namespace MyAPI
 
             // Web API 路由
             config.MapHttpAttributeRoutes();
-
+            config.Filters.Add(new ApiSecurityFilter());
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

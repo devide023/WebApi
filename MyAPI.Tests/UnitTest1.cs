@@ -16,10 +16,15 @@ namespace MyAPI.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            UserService us = new UserService();            
-            sys_user t = us.Find(406);
-            Console.WriteLine(t.Id);
-            Console.WriteLine(t.Name);
+            int zs = 0;
+            UserService us = new UserService();
+            UserQueryParm parm = new UserQueryParm();
+            parm.pageindex = 1;
+            parm.pagesize = 20;
+            var list = us.Get_List(parm,t=>t.Id,out zs);
+            Console.WriteLine(list.FirstOrDefault().Id);
+            Console.WriteLine(list.Count());
+            Console.WriteLine(zs);
         }
     }
 }
