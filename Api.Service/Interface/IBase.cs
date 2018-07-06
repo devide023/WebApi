@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Api.Model;
+using Api.Model.Parm;
 
 namespace Api.Service
 {
@@ -15,5 +16,6 @@ namespace Api.Service
         T Remove(int id);
         int Remove(List<int> ids);
         IEnumerable<T> Get_List();
+        IEnumerable<T> Get_List<P>(P parm) where P:BaseParm;
     }
 }

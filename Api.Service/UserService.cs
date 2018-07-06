@@ -6,26 +6,20 @@ using System.Threading.Tasks;
 using Api.Model;
 using Api.Dao;
 using Api.Model.Parm;
+using Webdiyer.WebControls.Mvc;
 
 namespace Api.Service
 {
-    public class UserService: BaseService<sys_user>, IUserService<UserQueryParm>
+    public class UserService: BaseService<sys_user>
     {
         public UserService()
         {
 
         }
 
-        public IEnumerable<sys_user> Get_List(UserQueryParm parm, out int record_count)
+        public override IEnumerable<sys_user> Get_List<P>(P parm)
         {
-            using (Db db = new Db())
-            {
-                record_count = 0;
-                var list = db.sys_users as IEnumerable<sys_user>;
-
-
-                return list;
-            }
+            return base.Get_List<P>(parm);
         }
     }
 }

@@ -8,6 +8,7 @@ using EntityFramework.Batch;
 using Api.Model;
 using Api.Model.Parm;
 using Api.Dao;
+using Webdiyer.WebControls.Mvc;
 namespace Api.Service
 {
     public class BaseService<T> : IBase<T> where T:class
@@ -53,6 +54,24 @@ namespace Api.Service
                 {
                     var list = db.Set<T>() as IQueryable<T>;
                     return list.ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public virtual IEnumerable<T> Get_List<P>(P parm) where P : BaseParm
+        {
+            try
+            {
+                using (Db db = new Db())
+                {
+                    var list = db.Set<T>().AsEnumerable<T>();
+                    list = list.ToPagedList(parm.pageindex, parm.pagesize);
+                    return list;
                 }
             }
             catch (Exception)
