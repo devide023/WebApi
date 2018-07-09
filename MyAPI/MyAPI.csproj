@@ -76,6 +76,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -104,11 +105,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Common\WebApiConfig.cs" />
+    <Compile Include="Common\AppSettingsConfig.cs" />
     <Compile Include="Common\EnumExtension.cs" />
     <Compile Include="Common\HttpResponseExtension.cs" />
+    <Compile Include="Common\HttpResponseMsg.cs" />
     <Compile Include="Common\SignExtension.cs" />
+    <Compile Include="Common\WebApiHelper.cs" />
     <Compile Include="Common\WebSettingsConfig.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Enum\ApiEnum.cs" />
     <Compile Include="Filters\ApiSecurityFilter .cs" />
     <Compile Include="Global.asax.cs">
@@ -127,7 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="App_Start\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
