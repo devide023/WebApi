@@ -114,6 +114,7 @@
     <Compile Include="Common\WebApiHelper.cs" />
     <Compile Include="Common\WebSettingsConfig.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Enum\ApiEnum.cs" />
     <Compile Include="Filters\ApiSecurityFilter .cs" />
     <Compile Include="Global.asax.cs">
