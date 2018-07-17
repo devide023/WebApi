@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web.Http;
-using MyAPI.Filters;
 
 namespace MyAPI
 {
@@ -10,11 +10,12 @@ namespace MyAPI
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API 配置和服务
+            // Web API configuration and services
 
-            // Web API 路由
+            // Web API routes
             config.MapHttpAttributeRoutes();
-            config.Filters.Add(new ApiSecurityFilter());
+            config.Filters.Add(new Filters.ApiSecurityFilter());
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

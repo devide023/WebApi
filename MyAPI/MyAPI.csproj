@@ -105,7 +105,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\WebApiConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common\AppSettingsConfig.cs" />
     <Compile Include="Common\EnumExtension.cs" />
     <Compile Include="Common\HttpResponseExtension.cs" />
@@ -133,7 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="App_Start\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
