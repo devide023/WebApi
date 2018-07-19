@@ -18,13 +18,9 @@ namespace MyAPI.Tests
         {
             int zs = 0;
             UserService us = new UserService();
-            UserQueryParm parm = new UserQueryParm();
-            parm.pageindex = 1;
-            parm.pagesize = 20;
-            var list = us.Get_List(parm,t=>t.Id,out zs);
-            Console.WriteLine(list.FirstOrDefault().Id);
+            string pwd = Common.Tool.CfsEnCode("850909");
+            var list = us.Get_List().Where(t => t.Login_Name == "yy" && t.Pwd == pwd);
             Console.WriteLine(list.Count());
-            Console.WriteLine(zs);
         }
     }
 }

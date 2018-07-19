@@ -15,6 +15,6 @@ namespace Api.Service
         public UserService()
         {
 
-        }        
+        }
     }
 }

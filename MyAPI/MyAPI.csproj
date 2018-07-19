@@ -101,7 +101,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\urls.txt" />
     <Content Include="Global.asax" />
+    <Content Include="Images\yzlLogin_logo.gif" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -111,8 +113,12 @@
     <Compile Include="Common\HttpResponseExtension.cs" />
     <Compile Include="Common\HttpResponseMsg.cs" />
     <Compile Include="Common\SignExtension.cs" />
+    <Compile Include="Common\Tool.cs" />
     <Compile Include="Common\WebApiHelper.cs" />
     <Compile Include="Common\WebSettingsConfig.cs" />
+    <Compile Include="Controllers\DownLoadController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Enum\ApiEnum.cs" />

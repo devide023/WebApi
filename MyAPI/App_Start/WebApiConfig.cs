@@ -14,7 +14,7 @@ namespace MyAPI
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-            config.Filters.Add(new Filters.ApiSecurityFilter());
+            //config.Filters.Add(new Filters.ApiSecurityFilter());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
