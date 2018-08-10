@@ -22,5 +22,17 @@ namespace MyAPI.Tests
             var list = us.Get_List().Where(t => t.Login_Name == "yy" && t.Pwd == pwd);
             Console.WriteLine(list.Count());
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            UserService us = new UserService();
+            var list = us.Get_UserMenu(406);
+            Console.WriteLine(list.Count());
+        }
+
     }
+
+    
+
 }

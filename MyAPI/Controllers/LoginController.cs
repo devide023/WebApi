@@ -17,13 +17,13 @@ namespace MyAPI.Controllers
 {
     public class LoginController : ApiController
     {
-        [HttpGet]
-        public HttpResponseMessage CheckLogin(string username,string userpwd)
+        [HttpPost]
+        public HttpResponseMessage CheckLogin([FromBody]sys_user user)
         {
             string json = "";
             UserService us = new UserService();
-            string pwd = Common.Tool.CfsEnCode(userpwd);
-            var list = us.Get_List().Where(t => t.Login_Name == username && t.Pwd == pwd);
+            string pwd = Common.Tool.CfsEnCode(user.Pwd);
+            var list = us.Get_List().Where(t => t.Login_Name == user.Login_Name && t.Pwd == pwd);
             if (list.Count() > 0)
             {
                 json = JsonConvert.SerializeObject(new { state = 1, msg = "ok", list = list });

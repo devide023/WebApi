@@ -11,5 +11,6 @@ namespace Api.Dao
     public partial class Db
     {
         public DbSet<sys_user> sys_users { get; set; }
+        public DbSet<site_user_role> site_user_roles { get; set; }
     }
 }

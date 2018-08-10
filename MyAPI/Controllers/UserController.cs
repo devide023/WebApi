@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using System.Web.Mvc;
 using Api.Model;
 using Api.Model.Parm;
 using Api.Service;
@@ -14,13 +13,37 @@ namespace MyAPI.Controllers
 {
     public class UserController : ApiController
     {
-        [System.Web.Http.HttpGet]
-        public HttpResponseMessage userlist()
+        [HttpGet]
+        public IHttpActionResult get_userlist()
         {
-            UserService us = new UserService();
-            var list = us.Get_List();
-            list = list.Where(t => t.Id <= 406).ToList();
-            return Request.CreateResponse(HttpStatusCode.OK, list, "application/json");
+            try
+            {
+                UserService us = new UserService();
+                List<sys_user> list = us.Get_List().ToList();
+                return Json(list);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPost]
+        public IHttpActionResult userlist([FromBody] UserQueryParm parm)
+        {
+            try
+            {
+                int cnt = 0;
+                UserService us = new UserService();
+                var list = us.Get_User_List(parm, out cnt);
+                return Json(new { resultcount=cnt,list=list});
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

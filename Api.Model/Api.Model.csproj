@@ -50,6 +50,10 @@
     <Compile Include="Parm\BaseParm.cs" />
     <Compile Include="Parm\UserQueryParm.cs" />
     <Compile Include="ResultMsg.cs" />
+    <Compile Include="site_menu.cs" />
+    <Compile Include="site_role.cs" />
+    <Compile Include="site_role_menu.cs" />
+    <Compile Include="site_user_role.cs" />
     <Compile Include="sys_organize_detail.cs" />
     <Compile Include="sys_organize_node.cs" />
     <Compile Include="sys_user.cs" />

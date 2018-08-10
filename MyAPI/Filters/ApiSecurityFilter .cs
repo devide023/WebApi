@@ -42,7 +42,7 @@ namespace MyAPI.Filters
             }
 
             //GetToken方法不需要进行签名验证
-            if (actionContext.ActionDescriptor.ActionName == "GetToken")
+            if (new string[] { "CheckLogin", "GetToken" }.ToList().Where(t=>actionContext.ActionDescriptor.ActionName==t).Count()>0)
             {
                 if (string.IsNullOrEmpty(staffid) || (!int.TryParse(staffid, out id) || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce)))
                 {

@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="BaseService.cs" />
     <Compile Include="Interface\IBase.cs" />
+    <Compile Include="MenuService.cs" />
+    <Compile Include="RoleService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
