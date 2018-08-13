@@ -42,10 +42,14 @@ namespace Api.Service
                 using (Db db = new Db())
                 {
                     var list = db.sys_users as IQueryable<sys_user>;
-
-
-
-
+                    if (!string.IsNullOrEmpty(parm.key))
+                    {
+                        list = list.Where(t => t.Name.Contains(parm.key.Trim()));
+                    }
+                    if (!string.IsNullOrEmpty(parm.tel))
+                    {
+                        list = list.Where(t => t.Mobile.Contains(parm.tel.Trim()) || t.Tel.Contains(parm.tel.Trim()));
+                    }
                     PagedList<sys_user> retlist = list.OrderByDescending(t => t.Id).ToPagedList(parm.pageindex, parm.pagesize);
                     Result_Count = retlist.TotalItemCount;
                     return retlist.ToList();
