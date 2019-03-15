@@ -36,29 +36,16 @@ namespace MyAPI.Filters
                 nonce = HttpUtility.UrlDecode(request.Headers.GetValues("nonce").FirstOrDefault());
             }
 
-            if (request.Headers.Contains("signature"))
+            if (request.Headers.Contains("sign"))
             {
-                signature = HttpUtility.UrlDecode(request.Headers.GetValues("signature").FirstOrDefault());
+                signature = HttpUtility.UrlDecode(request.Headers.GetValues("sign").FirstOrDefault());
             }
 
             //GetToken方法不需要进行签名验证
-            if (new string[] { "CheckLogin", "GetToken" }.ToList().Where(t=>actionContext.ActionDescriptor.ActionName==t).Count()>0)
+            if (new[] { "checklogin", "GetToken" }.Count(t=>t.ToLower()== actionContext.ActionDescriptor.ActionName.ToLower())>0)
             {
-                if (string.IsNullOrEmpty(staffid) || (!int.TryParse(staffid, out id) || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce)))
-                {
-                    resultMsg = new ResultMsg();
-                    resultMsg.StatusCode = (int)StatusCodeEnum.ParameterError;
-                    resultMsg.Info = StatusCodeEnum.ParameterError.GetEnumText();
-                    resultMsg.Data = "";
-                    actionContext.Response = HttpResponseExtension.toJson(JsonConvert.SerializeObject(resultMsg));
                     base.OnActionExecuting(actionContext);
                     return;
-                }
-                else
-                {
-                    base.OnActionExecuting(actionContext);
-                    return;
-                }
             }
 
 
@@ -172,6 +159,10 @@ namespace MyAPI.Filters
             {
                 base.OnActionExecuting(actionContext);
             }
+        }
+        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        {
+            base.OnActionExecuted(actionExecutedContext);
         }
     }
 }

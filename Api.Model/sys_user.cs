@@ -24,5 +24,10 @@ namespace Api.Model
         public DateTime? Add_Time { get; set; }
         public int Add_User { get; set; }
         public string Add_userName { get; set; }
+
+        public List<site_menu> site_menus { get; set; }
+        public List<site_role> site_roles { get; set; }
+        public sys_organize_node organize_node { get; set; }
+        public sys_organize_node department { get; set; }
     }
 }

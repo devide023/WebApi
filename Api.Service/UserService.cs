@@ -7,7 +7,9 @@ using Api.Model;
 using Api.Dao;
 using Api.Model.Parm;
 using Webdiyer.WebControls.Mvc;
-
+using Dapper;
+using Z.Dapper.Plus;
+using Z.BulkOperations;
 namespace Api.Service
 {
     public class UserService: BaseService<sys_user>
@@ -17,20 +19,77 @@ namespace Api.Service
 
         }
 
-        public List<site_menu> Get_UserMenu(int user_id)
+        public IEnumerable<sys_user> check_userlogin(string name,string pwd)
+        {
+            return DapperHelper.Conn.Query<sys_user>("SELECT * FROM dbo.Sys_User WHERE Login_Name=@name AND Pwd=@pwd ", new { name = name, pwd = pwd });
+        }
+        public List<sys_user> myusers()
+        {
+            
+                var list = DapperHelper.Conn.Query<sys_user>("select * from sys_user where convert(date,add_time) between @rq1 and @rq2 ",new {rq1="2017-01-01",rq2="2017-12-31" });
+                return list.ToList();
+        }
+
+        public List<sys_user> Dapper_Test(int user_id)
         {
             try
             {
-                using (Db db = new Db())
-                {
-                    var list = db.site_user_roles.Where(t => t.user_id == user_id).Join(db.site_role_menus, ta => ta.role_id, tb => tb.role_id, (ta, tb) => new { ta, tb }).Select(t => t.tb)
-                        .Join(db.site_menus.Where(t=>t.status == 1), t1 => t1.menu_id, t2 => t2.id, (t1, t2) => new { t1, t2 }).Select(t => t.t2);
-                    return list.Distinct().ToList();
-                }
+                var userdic = new Dictionary<int, sys_user>();
+                string sql = @"SELECT ta.*,te.*,tf.*,td.*,h.*
+FROM   dbo.Sys_User ta,
+       dbo.site_user_role tb,
+	   dbo.site_role_menu tc,
+	   dbo.site_menu td,
+        sys_organize_node te,
+sys_organize_node tf,
+dbo.site_user_role g,
+dbo.site_role h
+WHERE  ta.id = tb.user_id
+		AND tb.role_id = tc.role_id
+		AND tc.menu_id = td.id
+        and ta.company_id = te.id
+        and ta.department_id = tf.id
+AND ta.id = g.user_id
+		AND g.role_id = h.id
+       AND ta.id in @userid";
+                var list = DapperHelper.Conn.Query<sys_user, sys_organize_node, sys_organize_node,site_menu,site_role, sys_user>(sql,(u,o,o1,m,r)=> {
+                    sys_user userEntry;
+
+                    if (!userdic.TryGetValue(u.Id, out userEntry))
+                    {
+                        userEntry = u;
+                        userEntry.organize_node = o;
+                        userEntry.department = o1;
+                        userEntry.site_menus = new List<site_menu>();
+                        userEntry.site_roles = new List<site_role>();
+                        userdic.Add(userEntry.Id, userEntry);
+                    }
+
+                    userEntry.site_menus.Add(m);
+                    userEntry.site_roles.Add(r);
+                    return userEntry;
+                }, new { userid = new[] { user_id } },splitOn:"id,Id,Id,id").Distinct().ToList();
+                list.ForEach(t => { t.site_roles = t.site_roles.Distinct().ToList();t.site_menus = t.site_menus.Distinct().ToList(); });
+                return list;
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public List<site_menu> Get_UserMenu(int user_id)
+        {
+            try
+            {
+                string sql = @"SELECT tc.* FROM dbo.site_user_role ta,dbo.site_role_menu tb,dbo.site_menu tc WHERE ta.USER_ID = @userid
+AND ta.role_id = tb.role_id
+AND tc.id  =tb.menu_id";
+                var list = DapperHelper.Conn.Query<site_menu>(sql, new { userid = user_id });
+                return list.ToList();
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

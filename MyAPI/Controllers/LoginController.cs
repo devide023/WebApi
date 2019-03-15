@@ -12,26 +12,36 @@ using System.Text;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Web.Hosting;
+using System.Web.Security;
 
 namespace MyAPI.Controllers
 {
     public class LoginController : ApiController
     {
+        [HttpOptions]
+        public HttpResponseMessage CheckLogin()
+        {
+            return new HttpResponseMessage { Content = new StringContent("ok", Encoding.GetEncoding("UTF-8"), "application/json") };
+        }
         [HttpPost]
         public HttpResponseMessage CheckLogin([FromBody]sys_user user)
         {
             string json = "";
             UserService us = new UserService();
             string pwd = Common.Tool.CfsEnCode(user.Pwd);
-            var list = us.Get_List().Where(t => t.Login_Name == user.Login_Name && t.Pwd == pwd);
+            var list = us.check_userlogin(user.Login_Name, pwd);
             if (list.Count() > 0)
             {
-                json = JsonConvert.SerializeObject(new { state = 1, msg = "ok", list = list });
+                string uid = list.ToList()[0].Id.ToString();
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(0, uid, DateTime.Now,
+                            DateTime.Now.AddHours(24), true, string.Format("{0}&{1}", user.Login_Name, pwd),
+                            FormsAuthentication.FormsCookiePath);
+                json = JsonConvert.SerializeObject(new { state = 1, msg = "ok", list = list, ticket = FormsAuthentication.Encrypt(ticket) });
             }
             else
             {
-                json = JsonConvert.SerializeObject(new { state = 0, msg = "用户名密码错误！",list=""});
-                
+                json = JsonConvert.SerializeObject(new { state = 0, msg = "用户名密码错误！", list = "", ticket = "" });
+
             }
             HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(json, Encoding.GetEncoding("UTF-8"), "application/json") };
             return result;

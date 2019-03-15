@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Api.Model;
+using System.Data.SqlClient;
+using System.Configuration;
+
 namespace Api.Dao
 {
     public partial  class Db : DbContext
@@ -16,5 +19,7 @@ namespace Api.Dao
         public Db() : base("conn")
         {
         }
+
+        
     }
 }

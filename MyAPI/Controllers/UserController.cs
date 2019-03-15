@@ -8,23 +8,35 @@ using System.Web.Http;
 using Api.Model;
 using Api.Model.Parm;
 using Api.Service;
+using MyAPI.ApiSecurity;
 using Newtonsoft.Json;
 namespace MyAPI.Controllers
 {
-    public class UserController : ApiController
+    public class UserController : BaseApiSecurity
     {
+        [HttpOptions]
         [HttpGet]
-        public IHttpActionResult get_userlist()
+        public HttpResponseMessage get_userlist()
         {
             try
             {
+                if (Request.Method.Method == "OPTIONS")
+                {
+                    return new HttpResponseMessage { Content = new StringContent("ok"), StatusCode = HttpStatusCode.OK };
+                }
+                else
+                {
+                
                 UserService us = new UserService();
-                List<sys_user> list = us.Get_List().ToList();
-                return Json(list);
+                var a = us.Dapper_Test(406);
+                    //List<sys_user> list = us.Get_List().ToList();
+                    HttpResponseMessage rsm = new HttpResponseMessage(HttpStatusCode.OK);
+                    rsm.Content = new StringContent(JsonConvert.SerializeObject(a), Encoding.UTF8, "application/json");
+                    return rsm;
+                }
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

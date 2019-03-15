@@ -15,10 +15,14 @@ namespace MyAPI
             // Web API routes
             config.MapHttpAttributeRoutes();
             //config.Filters.Add(new Filters.ApiSecurityFilter());
-
+            config.Routes.MapHttpRoute(
+                name: "Api",
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

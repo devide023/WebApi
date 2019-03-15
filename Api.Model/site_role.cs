@@ -14,5 +14,7 @@ namespace Api.Model
       public string title{get;set;}
       public int add_user{get;set;}
       public DateTime add_time{get;set;}
+        
+        public List<site_menu> site_menus { get; set; }
     }
 }

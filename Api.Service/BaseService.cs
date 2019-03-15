@@ -59,10 +59,9 @@ namespace Api.Service
                     return list.ToList();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                throw e;
             }
         }
         public virtual IEnumerable<T> Get_List<P, TKey>(P parm, Expression<Func<T, TKey>> orderByLambda) where P : BaseParm

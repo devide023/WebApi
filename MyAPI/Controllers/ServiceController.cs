@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 using Api.Model;
 using Api.Model.Parm;
 using Api.Service;
@@ -20,6 +19,9 @@ namespace MyAPI.Controllers
         /// </summary>
         /// <param name="staffId"></param>
         /// <returns></returns>
+        /// 
+        [HttpOptions]
+        [HttpGet]
         public HttpResponseMessage GetToken(string staffId)
         {
             ResultMsg resultMsg = null;

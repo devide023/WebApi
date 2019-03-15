@@ -18,5 +18,7 @@ namespace Api.Model
         public DateTime add_time { get; set; }
         public int add_user { get; set; }
         public string icon { get; set; }
+
+        List<site_role> site_roles { get; set; }
     }
 }

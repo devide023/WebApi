@@ -7,25 +7,37 @@ using System.Web.Http;
 using Api.Model;
 using Api.Model.Parm;
 using Api.Service;
+using MyAPI.ApiSecurity;
+using Newtonsoft.Json;
+using System.Text;
+
 namespace MyAPI.Controllers
 {
-    public class MenuController : ApiController
+    public class MenuController : BaseApiSecurity
     {
+        [HttpOptions]
         [HttpGet]
-        public IHttpActionResult List(int userid)
+        public HttpResponseMessage List(int userid)
         {
-            List<site_menu> list = new List<site_menu>();
-            try
+            HttpResponseMessage hrm = new HttpResponseMessage(HttpStatusCode.OK);
+            if (Request.Method.Method.ToLower() == "options")
             {
-                UserService us = new UserService();
-                list = us.Get_UserMenu(userid);
+                return hrm;
             }
-            catch (Exception)
+            else
             {
-
-                throw;
+                List<site_menu> list = new List<site_menu>();
+                try
+                {
+                    UserService us = new UserService();
+                    list = us.Get_UserMenu(userid);
+                }
+                catch (Exception e)
+                {
+                }
+                hrm.Content = new StringContent(JsonConvert.SerializeObject(list), Encoding.UTF8, "application/json");
+                return hrm;
             }
-            return Json(list);
         }
     }
 }
