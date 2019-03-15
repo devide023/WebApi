@@ -5,7 +5,8 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Security;
-
+using System.Net.Http;
+using System.Net;
 namespace MyAPI.ApiSecurity
 {
     public class ApiSecurityAttribute : AuthorizeAttribute

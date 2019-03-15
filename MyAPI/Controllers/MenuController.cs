@@ -15,29 +15,21 @@ namespace MyAPI.Controllers
 {
     public class MenuController : BaseApiSecurity
     {
-        [HttpOptions]
         [HttpGet]
         public HttpResponseMessage List(int userid)
         {
             HttpResponseMessage hrm = new HttpResponseMessage(HttpStatusCode.OK);
-            if (Request.Method.Method.ToLower() == "options")
+            List<site_menu> list = new List<site_menu>();
+            try
             {
-                return hrm;
+                UserService us = new UserService();
+                list = us.Get_UserMenu(userid);
             }
-            else
+            catch (Exception e)
             {
-                List<site_menu> list = new List<site_menu>();
-                try
-                {
-                    UserService us = new UserService();
-                    list = us.Get_UserMenu(userid);
-                }
-                catch (Exception e)
-                {
-                }
-                hrm.Content = new StringContent(JsonConvert.SerializeObject(list), Encoding.UTF8, "application/json");
-                return hrm;
             }
+            hrm.Content = new StringContent(JsonConvert.SerializeObject(list), Encoding.UTF8, "application/json");
+            return hrm;
         }
     }
 }

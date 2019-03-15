@@ -8,11 +8,12 @@ using System.Web.Http;
 using Api.Model;
 using Api.Model.Parm;
 using Api.Service;
+using MyAPI.ApiSecurity;
 using Newtonsoft.Json;
 
 namespace MyAPI.Controllers
 {
-    public class ServiceController : ApiController
+    public class ServiceController : BaseApiSecurity
     {
         /// <summary>
         /// 根据用户名获取token
@@ -20,7 +21,6 @@ namespace MyAPI.Controllers
         /// <param name="staffId"></param>
         /// <returns></returns>
         /// 
-        [HttpOptions]
         [HttpGet]
         public HttpResponseMessage GetToken(string staffId)
         {

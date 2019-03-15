@@ -13,16 +13,12 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Web.Hosting;
 using System.Web.Security;
+using MyAPI.ApiSecurity;
 
 namespace MyAPI.Controllers
 {
     public class LoginController : ApiController
     {
-        [HttpOptions]
-        public HttpResponseMessage CheckLogin()
-        {
-            return new HttpResponseMessage { Content = new StringContent("ok", Encoding.GetEncoding("UTF-8"), "application/json") };
-        }
         [HttpPost]
         public HttpResponseMessage CheckLogin([FromBody]sys_user user)
         {

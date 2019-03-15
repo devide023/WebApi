@@ -7,10 +7,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Hosting;
 using System.Web.Http;
+using MyAPI.ApiSecurity;
 
 namespace MyAPI.Controllers
 {
-    public class DownLoadController : ApiController
+    public class DownLoadController : BaseApiSecurity
     {
         [HttpGet]
         public HttpResponseMessage File(string name)

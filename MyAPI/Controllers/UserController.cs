@@ -14,26 +14,14 @@ namespace MyAPI.Controllers
 {
     public class UserController : BaseApiSecurity
     {
-        [HttpOptions]
         [HttpGet]
-        public HttpResponseMessage get_userlist()
+        public IHttpActionResult get_userlist()
         {
             try
-            {
-                if (Request.Method.Method == "OPTIONS")
-                {
-                    return new HttpResponseMessage { Content = new StringContent("ok"), StatusCode = HttpStatusCode.OK };
-                }
-                else
-                {
-                
+            {                
                 UserService us = new UserService();
                 var a = us.Dapper_Test(406);
-                    //List<sys_user> list = us.Get_List().ToList();
-                    HttpResponseMessage rsm = new HttpResponseMessage(HttpStatusCode.OK);
-                    rsm.Content = new StringContent(JsonConvert.SerializeObject(a), Encoding.UTF8, "application/json");
-                    return rsm;
-                }
+                return Json(a);
             }
             catch (Exception)
             {
