@@ -16,7 +16,7 @@ namespace MyAPI.Controllers
     public class MenuController : BaseApiSecurity
     {
         [HttpGet]
-        public HttpResponseMessage List(int userid)
+        public IEnumerable<site_menu> List(int userid)
         {
             HttpResponseMessage hrm = new HttpResponseMessage(HttpStatusCode.OK);
             List<site_menu> list = new List<site_menu>();
@@ -28,8 +28,8 @@ namespace MyAPI.Controllers
             catch (Exception e)
             {
             }
-            hrm.Content = new StringContent(JsonConvert.SerializeObject(list), Encoding.UTF8, "application/json");
-            return hrm;
+
+            return list;
         }
     }
 }

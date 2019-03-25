@@ -12,22 +12,24 @@ using MyAPI.ApiSecurity;
 using Newtonsoft.Json;
 namespace MyAPI.Controllers
 {
-    public class UserController : BaseApiSecurity
+    [RoutePrefix("api/user")]
+    public class UserController : ApiController
     {
-        [HttpGet]
-        public IHttpActionResult get_userlist()
+        [Route("index")]
+        public IEnumerable<sys_user> get()
         {
             try
             {                
                 UserService us = new UserService();
                 var a = us.Dapper_Test(406);
-                return Json(a);
+                return a.ToList();
             }
             catch (Exception)
             {
                 throw;
             }
         }
+        [Route("list")]
         [HttpPost]
         public IHttpActionResult userlist([FromBody] UserQueryParm parm)
         {
@@ -44,7 +46,7 @@ namespace MyAPI.Controllers
             }
 
         }
-
+        [Route("del/{id}")]
         [HttpGet]
         public IHttpActionResult deluser(int id)
         {

@@ -19,7 +19,7 @@ namespace MyAPI
             //config.Filters.Add(new Filters.ApiSecurityFilter());
             config.Routes.MapHttpRoute(
                 name: "Api",
-                routeTemplate: "api/{controller}/{action}/{id}",
+                routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
             config.Routes.MapHttpRoute(
